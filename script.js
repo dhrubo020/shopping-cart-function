@@ -36,7 +36,7 @@ window.onload = function () {
                     var unitPrice = parseInt(getUnitPrice.value);
                     var count = parseInt(inputForm.value);
                     inputGroup.childNodes[3].value = count + 1;
-                    itemsChild[5].childNodes[1].innerText = unitPrice * (count + 1);
+                    itemsChild[5].childNodes[1].innerText = (unitPrice * (count + 1)).toLocaleString();
                     subTotalFun(unitPrice, "add");
                     print("+ clicked")
                 }
@@ -45,7 +45,7 @@ window.onload = function () {
                     let count = inputForm.value;
                     if (count > 0) {
                         inputGroup.childNodes[3].value = count - 1;
-                        itemsChild[5].childNodes[1].innerText = unitPrice * (count - 1);
+                        itemsChild[5].childNodes[1].innerText = (unitPrice * (count - 1)).toLocaleString();
                         subTotalFun(unitPrice, "sub");
                     }
                     print("- clicked")
@@ -63,35 +63,20 @@ window.onload = function () {
         }
         var tax = (subTotal * 5) / 100;
         var total = subTotal + tax;
-        document.getElementById("sub-total").innerText = subTotal;
-        document.getElementById("tax").innerText = tax;
-        document.getElementById("total").innerText = total;
+        document.getElementById("sub-total").innerText = subTotal.toLocaleString(); //
+        document.getElementById("tax").innerText = tax.toLocaleString();
+        document.getElementById("total").innerText = total.toLocaleString(); // .toLocaleString() for comma separated
     }
 
     //---------- removing item ---
     var remove = document.getElementsByClassName("remove-item");
     for (var i = 0; i < remove.length; i++) {
         remove[i].addEventListener("click", function () {
-            print(this.parentElement);
+            var getThisPrice = (this.parentElement.childNodes[5].childNodes[1].innerText).replace(/,/g, "")
+            var getThisPrice = parseInt(getThisPrice);
+            subTotalFun(getThisPrice, "sub");
             item = this.parentElement.parentElement.parentElement;
             item.style.display = "none";
         })
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
